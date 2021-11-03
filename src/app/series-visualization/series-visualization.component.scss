@@ -1,0 +1,20 @@
+.container {
+  background-color: grey;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item {
+  width: 10px;
+  height: 10px;
+}
+
+.true {
+  background-color: black;
+}
+
+.false {
+  background-color: white;
+}
