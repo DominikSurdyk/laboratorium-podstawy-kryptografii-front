@@ -13,12 +13,20 @@ import { SeriesVisualizationComponent } from './series-visualization/series-visu
 import {HttpClientModule} from "@angular/common/http";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { SaveFileComponent } from './save-file/save-file.component';
+import { BoolToStringPipe } from './pipes/bool-to-string.pipe';
+import { StringToBoolPipe } from './pipes/string-to-bool.pipe';
+import { UploadBbsComponent } from './upload-bbs/upload-bbs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GenerateBbsComponent,
-    SeriesVisualizationComponent
+    SeriesVisualizationComponent,
+    SaveFileComponent,
+    BoolToStringPipe,
+    StringToBoolPipe,
+    UploadBbsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,19 @@
-.container {
+.visualization-panel-container {
   background-color: grey;
   padding: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
+}
+
+.visualization-panel, {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.series-panel{
+  overflow-wrap: anywhere;
+  padding-top: 20px;
 }
 
 .item {

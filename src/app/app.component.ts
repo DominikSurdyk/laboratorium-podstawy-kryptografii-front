@@ -4,12 +4,15 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   styleUrls: ['./app.component.scss'],
   template: `
-    <mat-toolbar>
       <mat-tab-group>
-        <mat-tab label="Generator BBS 20k"></mat-tab>
+        <mat-tab label="Generator BBS 20k">
+          <app-generate-bbs></app-generate-bbs>
+        </mat-tab>
+        <mat-tab label="Upload plików">
+          <app-upload-bbs></app-upload-bbs>
+        </mat-tab>
       </mat-tab-group>
-    </mat-toolbar>
-    <app-generate-bbs></app-generate-bbs>
+
   `
 })
 export class AppComponent {

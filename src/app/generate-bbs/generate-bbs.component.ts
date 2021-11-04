@@ -15,31 +15,28 @@ import {Observable} from "rxjs";
               <mat-label>Długość ciągu</mat-label>
               <input matInput #length placeholder="np 20000" value="20000">
             </mat-form-field>
-
             <mat-form-field appearance="fill">
               <mat-label>Liczba bluma</mat-label>
-              <input matInput #blumNumber placeholder="np 789" value="789">
+              <input matInput #blumNumber placeholder="np 2500013" value="50000057">
             </mat-form-field>
-
             <mat-form-field appearance="fill">
               <mat-label>losowa liczba n</mat-label>
-              <input matInput #randomNumber placeholder="NWD z liczba bluma = 1" value="238470123486127834">
+              <input matInput #randomNumber placeholder="NWD z liczba bluma = 1" value="2500011">
             </mat-form-field>
-
           </mat-card>
-
           <button mat-raised-button color="primary"
                   (click)="callBbs()">Wygeneruj losowy ciag
           </button>
         </div>
-        <app-series-visualization [series$]="series$"></app-series-visualization>
+        <app-series-visualization *ngIf="isResponse" [series]="series"></app-series-visualization>
       </mat-card>
     </div>
 
   `
 })
 export class GenerateBbsComponent implements OnInit {
-  series$: Observable<boolean[]> | undefined;
+  series:boolean[] = [];
+
   @ViewChild('length') length: ElementRef ;
   @ViewChild('blumNumber') blumNumber: ElementRef;
   @ViewChild('randomNumber') randomNumber: ElementRef;
@@ -55,10 +52,17 @@ export class GenerateBbsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get isResponse(): boolean{
+    return this.series.length !== 0;
+  }
+
   callBbs(): void {
-    this.series$ = this.bbsGenerateService.generate(
+     this.bbsGenerateService.generate(
       this.length.nativeElement.value,
-      this.blumNumber?.nativeElement.value,
-      this.randomNumber?.nativeElement.value);
+      this.blumNumber.nativeElement.value,
+      this.randomNumber.nativeElement.value).subscribe(response => {
+       this.series = response;
+     })
   }
 }
+
