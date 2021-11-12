@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
-import {BbsGenerateService} from "../services/bbs-generate.service";
-import {Observable} from "rxjs";
+import {BackendCommunicationService} from "../services/backend-communication.service";
 
 @Component({
   selector: 'app-generate-bbs',
@@ -35,12 +34,13 @@ import {Observable} from "rxjs";
   `
 })
 export class GenerateBbsComponent implements OnInit {
-  series:boolean[] = [];
+  series: boolean[] = [];
 
-  @ViewChild('length') length: ElementRef ;
+  @ViewChild('length') length: ElementRef;
   @ViewChild('blumNumber') blumNumber: ElementRef;
   @ViewChild('randomNumber') randomNumber: ElementRef;
-  constructor(private bbsGenerateService: BbsGenerateService,
+
+  constructor(private bbsGenerateService: BackendCommunicationService,
               l: ElementRef,
               b: ElementRef,
               r: ElementRef) {
@@ -49,20 +49,20 @@ export class GenerateBbsComponent implements OnInit {
     this.randomNumber = r;
   }
 
-  ngOnInit(): void {
-  }
-
-  get isResponse(): boolean{
+  get isResponse(): boolean {
     return this.series.length !== 0;
   }
 
+  ngOnInit(): void {
+  }
+
   callBbs(): void {
-     this.bbsGenerateService.generate(
+    this.bbsGenerateService.generateBbsSeries(
       this.length.nativeElement.value,
       this.blumNumber.nativeElement.value,
       this.randomNumber.nativeElement.value).subscribe(response => {
-       this.series = response;
-     })
+      this.series = response;
+    })
   }
 }
 

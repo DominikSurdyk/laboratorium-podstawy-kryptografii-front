@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Observable} from "rxjs";
 
 @Component({
@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
   template: `
     <div class="container">
       <mat-card  class="visualization-panel-container">
+        <app-testing [series]="series"></app-testing>
         <button *ngIf="!showPanel" mat-raised-button color="accent" (click)="showPanel=true">Wizualizacja</button>
         <div *ngIf="showPanel" class="visualization-panel">
           <div *ngFor="let item of series"
@@ -21,11 +22,15 @@ import {Observable} from "rxjs";
     </div>
   `
 })
-export class SeriesVisualizationComponent implements OnInit {
+export class SeriesVisualizationComponent implements OnInit, OnChanges {
   @Input()
   series: boolean[] = [];
   showPanel: boolean = false;
   constructor() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.showPanel = false;
   }
 
   ngOnInit(): void {

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {resolve} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Component({
   selector: 'app-upload-bbs',
@@ -19,10 +18,13 @@ import {resolve} from "@angular/compiler-cli/src/ngtsc/file_system";
   `
 })
 export class UploadBbsComponent implements OnInit {
-  uploadedText: string = '';
   series: boolean[] = [];
 
   constructor() {
+  }
+
+  get isUploadedFile(): boolean {
+    return this.series.length !== 0;
   }
 
   ngOnInit(): void {
@@ -50,9 +52,5 @@ export class UploadBbsComponent implements OnInit {
 
   castToBool(digit: string): boolean {
     return digit === '1';
-  }
-
-  get isUploadedFile(): boolean {
-    return this.series.length !== 0;
   }
 }

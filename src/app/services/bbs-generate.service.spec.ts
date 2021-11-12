@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BbsGenerateService } from './bbs-generate.service';
+import { BackendCommunicationService } from './backend-communication.service';
 
-describe('BbsGenerateService', () => {
-  let service: BbsGenerateService;
+describe('BackendComunicationService', () => {
+  let service: BackendCommunicationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(BbsGenerateService);
+    service = TestBed.inject(BackendCommunicationService);
   });
 
   it('should be created', () => {
