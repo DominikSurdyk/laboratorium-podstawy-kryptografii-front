@@ -1,15 +1,131 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {BackendCommunicationService, EncryptRequest} from "../services/backend-communication.service";
+import {ParsingService} from "../services/parsing.service";
+import {UploadedFile} from "../upload-file/upload-file.component";
 
 @Component({
   selector: 'app-encryption',
   styleUrls: ['./encryption.component.scss'],
-  template: ``
+  template: `
+    <mat-card class="container">
+      <mat-card class="result-panel"
+                *ngIf="filesUploaded">
+        <button mat-raised-button color="primary"
+                *ngIf="isKeyLongEnoughForString()"
+                (click)="encryptString()">
+          Zakoduj text
+        </button>
+        <button mat-raised-button color="primary"
+                *ngIf="isKeyLongEnoughForAscii()"
+                (click)="encryptAscii()">
+          Zakoduj ciąg bitów
+        </button>
+      </mat-card>
+      <mat-card class="file-panel">
+        <app-upload-file
+          [buttonLabel]="'Wgraj plik z wiadomością'"
+          (uploadedFile)="onUploadedMessageFile($event)"
+        ></app-upload-file>
+        <div class="file-content" *ngIf="messageFileUploaded()">
+          Plik: {{messageFileName}}<br><br>
+          zawartość: <br>
+          {{message}}
+        </div>
+      </mat-card>
+      <mat-card class="file-panel">
+        <app-upload-file
+          [buttonLabel]="'Wgraj plik z kluczem'"
+          (uploadedFile)="onUploadKeyFile($event)"
+        ></app-upload-file>
+        <div class="file-content" *ngIf="keyFileUploaded()">
+          Plik: {{keyFileName}},<br><br>
+          zawartość: <br>
+          {{key}}
+        </div>
+      </mat-card>
+    </mat-card>
+  `
 })
 export class EncryptionComponent implements OnInit {
+  message: string = '';
+  messageFileName: string = '';
+  key: string = '';
+  keyFileName: string = '';
 
-  constructor() { }
+
+  constructor(private backendService: BackendCommunicationService,
+              private parsingService: ParsingService) {
+  }
+
+  get filesUploaded(): boolean {
+    return this.messageFileUploaded() && this.keyFileUploaded();
+  }
+
+  private static parseFilename(fileName: string): string {
+    return fileName.substr(0, fileName.indexOf('.'));
+  }
+
+  messageFileUploaded(): boolean {
+    return this.message !== '';
+  }
+
+  keyFileUploaded(): boolean {
+    return this.key !== '';
+  }
 
   ngOnInit(): void {
   }
 
+  onUploadedMessageFile(uploadedFile: UploadedFile): void {
+    this.message = uploadedFile.content;
+    this.messageFileName = uploadedFile.name;
+  }
+
+  onUploadKeyFile(uploadedFile: UploadedFile): void {
+    this.key = uploadedFile.content;
+    this.keyFileName = uploadedFile.name;
+  }
+
+  isKeyLongEnoughForString(): boolean {
+    return this.message.length * 7 <= this.key.length;
+  }
+
+  isKeyLongEnoughForAscii(): boolean {
+    return this.message.length <= this.key.length;
+  }
+
+  encryptString(): void {
+    const request: EncryptRequest = {
+      messageAscii: [],
+      messageString: this.message,
+      messageFileName: EncryptionComponent.parseFilename(this.messageFileName),
+      key: this.parsingService.toBooleanArray(this.key),
+      keyFileName: EncryptionComponent.parseFilename(this.keyFileName)
+    }
+    this.backendService.encryptStringMessage(request).subscribe((res) => {
+      console.log(res)
+      this.clearState();
+    })
+  }
+
+  encryptAscii(): void {
+    const request: EncryptRequest = {
+      messageAscii: this.parsingService.toBooleanArray(this.message),
+      messageString: '',
+      messageFileName: EncryptionComponent.parseFilename(this.messageFileName),
+      key: this.parsingService.toBooleanArray(this.key),
+      keyFileName: EncryptionComponent.parseFilename(this.keyFileName)
+    }
+    this.backendService.encryptAsciiMessage(request).subscribe((res) => {
+      console.log(res)
+      this.clearState();
+    })
+  }
+
+  clearState(): void {
+    this.key = '';
+    this.keyFileName = '';
+    this.message = '';
+    this.messageFileName = '';
+  }
 }

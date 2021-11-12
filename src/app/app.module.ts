@@ -18,6 +18,7 @@ import {StringToBoolPipe} from './pipes/string-to-bool.pipe';
 import {UploadBbsComponent} from './upload-bbs/upload-bbs.component';
 import {TestingComponent} from './testing/testing.component';
 import { EncryptionComponent } from './encryption/encryption.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EncryptionComponent } from './encryption/encryption.component';
     StringToBoolPipe,
     UploadBbsComponent,
     TestingComponent,
-    EncryptionComponent
+    EncryptionComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,

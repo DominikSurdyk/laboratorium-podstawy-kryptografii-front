@@ -7,6 +7,14 @@ export interface CheckResult {
   details: string;
 }
 
+export interface EncryptRequest {
+  messageAscii: boolean[];
+  messageString: string;
+  messageFileName: string;
+  key: boolean[];
+  keyFileName: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,9 +32,16 @@ export class BackendCommunicationService {
 
   public testSeries(series: boolean[], testName: string): Observable<CheckResult> {
     const url = BackendCommunicationService.BACKEND_URL + '/check/test/' + testName;
-
-    // const url = 'http://localhost:8080/check/test/' + testName;
     return this.http.post<CheckResult>(url, series);
   }
 
+  public encryptStringMessage(request: EncryptRequest): Observable<boolean[]> {
+    const url = BackendCommunicationService.BACKEND_URL + '/encrypt/string/';
+    return this.http.post<boolean[]>(url, request);
+  }
+
+  public encryptAsciiMessage(request: EncryptRequest): Observable<boolean[]> {
+    const url = BackendCommunicationService.BACKEND_URL + '/encrypt/ascii/';
+    return this.http.post<boolean[]>(url, request);
+  }
 }

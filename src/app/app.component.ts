@@ -14,7 +14,6 @@ import { Component } from '@angular/core';
         <mat-tab label="Szyfrowanie wiadomości">
           <app-encryption></app-encryption>
         </mat-tab>
-
       </mat-tab-group>
 
   `
