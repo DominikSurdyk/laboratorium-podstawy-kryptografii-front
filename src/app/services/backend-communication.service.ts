@@ -7,6 +7,11 @@ export interface CheckResult {
   details: string;
 }
 
+export interface DecryptionResponse {
+  resultString: string;
+  resultAscii: boolean[];
+}
+
 export interface EncryptRequest {
   messageAscii: boolean[];
   messageString: string;
@@ -45,13 +50,13 @@ export class BackendCommunicationService {
     return this.http.post<boolean[]>(url, request);
   }
 
-  public decryptMessageToString(request: EncryptRequest): Observable<string> {
+  public decryptMessageToString(request: EncryptRequest): Observable<DecryptionResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/decrypt/string/';
-    return this.http.post<string>(url, request);
+    return this.http.post<DecryptionResponse>(url, request);
   }
 
-  public decryptMessageToAscii(request: EncryptRequest): Observable<boolean[]> {
+  public decryptMessageToAscii(request: EncryptRequest): Observable<DecryptionResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/decrypt/ascii/';
-    return this.http.post<boolean[]>(url, request);
+    return this.http.post<DecryptionResponse>(url, request);
   }
 }

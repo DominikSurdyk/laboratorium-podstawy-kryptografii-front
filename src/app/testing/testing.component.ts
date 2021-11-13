@@ -54,7 +54,6 @@ export class TestingComponent implements OnInit, OnChanges {
   }
 
   passed(testName: string) : boolean {
-    return false
     if (this.testResults.size == 0){
       return false;
     }
@@ -63,7 +62,6 @@ export class TestingComponent implements OnInit, OnChanges {
   }
 
   failed(testName: string) : boolean {
-    return false
 
     if (this.testResults.size == 0){
       return false;

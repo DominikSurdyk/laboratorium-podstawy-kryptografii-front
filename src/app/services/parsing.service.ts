@@ -15,6 +15,18 @@ export class ParsingService {
     return result;
   }
 
+  public toBinaryDigit(series: boolean[]): string {
+    var result ='';
+    for (let value of series){
+      if (value){
+        result = result + '1';
+      } else {
+        result = result + '0';
+      }
+    }
+    return result;
+  }
+
   public parseFilename(fileName: string): string {
     return fileName.substr(0, fileName.indexOf('.'));
   }

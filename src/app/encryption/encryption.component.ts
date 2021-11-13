@@ -47,6 +47,7 @@ import {UploadedFile} from "../upload-file/upload-file.component";
   `
 })
 export class EncryptionComponent implements OnInit {
+  static readonly ASCII_DIGIT_LENGTH: number = 8;
   message: string = '';
   messageFileName: string = '';
   key: string = '';
@@ -83,7 +84,7 @@ export class EncryptionComponent implements OnInit {
   }
 
   isKeyLongEnoughForString(): boolean {
-    return this.message.length * 7 <= this.key.length;
+    return this.message.length * EncryptionComponent.ASCII_DIGIT_LENGTH <= this.key.length;
   }
 
   isKeyLongEnoughForAscii(): boolean {

@@ -8,4 +8,10 @@
 
 .result-panel{
   background-color: darkslategrey;
+  display: flex;
+  flex-direction: column;
+
+  button{
+    margin-bottom: 20px;
+  }
 }

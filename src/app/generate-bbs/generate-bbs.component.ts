@@ -64,5 +64,9 @@ export class GenerateBbsComponent implements OnInit {
       this.series = response;
     })
   }
+
+  public clearState(): void {
+    this.series = [];
+  }
 }
 

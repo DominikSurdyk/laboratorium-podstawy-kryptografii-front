@@ -53,4 +53,8 @@ export class UploadBbsComponent implements OnInit {
   castToBool(digit: string): boolean {
     return digit === '1';
   }
+
+  public clearState(): void {
+    this.series = [];
+  }
 }
