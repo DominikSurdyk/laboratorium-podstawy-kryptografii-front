@@ -19,6 +19,7 @@ import {UploadBbsComponent} from './upload-bbs/upload-bbs.component';
 import {TestingComponent} from './testing/testing.component';
 import { EncryptionComponent } from './encryption/encryption.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
+import { DecryptionComponent } from './decryption/decryption.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     UploadBbsComponent,
     TestingComponent,
     EncryptionComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    DecryptionComponent
   ],
   imports: [
     BrowserModule,

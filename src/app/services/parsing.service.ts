@@ -15,6 +15,10 @@ export class ParsingService {
     return result;
   }
 
+  public parseFilename(fileName: string): string {
+    return fileName.substr(0, fileName.indexOf('.'));
+  }
+
   private static castToBool(digit: string): boolean {
     return digit === '1';
   }

@@ -61,10 +61,6 @@ export class EncryptionComponent implements OnInit {
     return this.messageFileUploaded() && this.keyFileUploaded();
   }
 
-  private static parseFilename(fileName: string): string {
-    return fileName.substr(0, fileName.indexOf('.'));
-  }
-
   messageFileUploaded(): boolean {
     return this.message !== '';
   }
@@ -98,9 +94,9 @@ export class EncryptionComponent implements OnInit {
     const request: EncryptRequest = {
       messageAscii: [],
       messageString: this.message,
-      messageFileName: EncryptionComponent.parseFilename(this.messageFileName),
+      messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
-      keyFileName: EncryptionComponent.parseFilename(this.keyFileName)
+      keyFileName: this.parsingService.parseFilename(this.keyFileName)
     }
     this.backendService.encryptStringMessage(request).subscribe((res) => {
       console.log(res)
@@ -112,9 +108,9 @@ export class EncryptionComponent implements OnInit {
     const request: EncryptRequest = {
       messageAscii: this.parsingService.toBooleanArray(this.message),
       messageString: '',
-      messageFileName: EncryptionComponent.parseFilename(this.messageFileName),
+      messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
-      keyFileName: EncryptionComponent.parseFilename(this.keyFileName)
+      keyFileName: this.parsingService.parseFilename(this.keyFileName)
     }
     this.backendService.encryptAsciiMessage(request).subscribe((res) => {
       console.log(res)

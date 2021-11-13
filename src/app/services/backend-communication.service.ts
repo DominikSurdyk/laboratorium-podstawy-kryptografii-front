@@ -44,4 +44,14 @@ export class BackendCommunicationService {
     const url = BackendCommunicationService.BACKEND_URL + '/encrypt/ascii/';
     return this.http.post<boolean[]>(url, request);
   }
+
+  public decryptMessageToString(request: EncryptRequest): Observable<string> {
+    const url = BackendCommunicationService.BACKEND_URL + '/decrypt/string/';
+    return this.http.post<string>(url, request);
+  }
+
+  public decryptMessageToAscii(request: EncryptRequest): Observable<boolean[]> {
+    const url = BackendCommunicationService.BACKEND_URL + '/decrypt/ascii/';
+    return this.http.post<boolean[]>(url, request);
+  }
 }
