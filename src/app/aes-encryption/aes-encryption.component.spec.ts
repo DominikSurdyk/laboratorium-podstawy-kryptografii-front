@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AesEncodeComponent } from './aes-encode.component';
+import { AesEncryptionComponent } from './aes-encryption.component';
 
 describe('EcbEncodeComponent', () => {
-  let component: AesEncodeComponent;
-  let fixture: ComponentFixture<AesEncodeComponent>;
+  let component: AesEncryptionComponent;
+  let fixture: ComponentFixture<AesEncryptionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AesEncodeComponent ]
+      declarations: [ AesEncryptionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AesEncodeComponent);
+    fixture = TestBed.createComponent(AesEncryptionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

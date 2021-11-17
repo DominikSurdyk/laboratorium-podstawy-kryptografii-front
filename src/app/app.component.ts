@@ -3,7 +3,7 @@ import {DecryptionComponent} from "./decryption/decryption.component";
 import {EncryptionComponent} from "./encryption/encryption.component";
 import {GenerateBbsComponent} from "./generate-bbs/generate-bbs.component";
 import {UploadBbsComponent} from "./upload-bbs/upload-bbs.component";
-import {AesEncodeComponent} from "./ecb-encode/aes-encode.component";
+import {AesEncryptionComponent} from "./aes-encryption/aes-encryption.component";
 
 @Component({
   selector: 'app-root',
@@ -45,8 +45,8 @@ export class AppComponent {
   generateBbsComponent: GenerateBbsComponent;
   @ViewChild(UploadBbsComponent)
   uploadBbsComponent: UploadBbsComponent;
-  @ViewChild(AesEncodeComponent)
-  aesEncodeComponent: AesEncodeComponent;
+  @ViewChild(AesEncryptionComponent)
+  aesEncodeComponent: AesEncryptionComponent;
 
   constructor() {
   }

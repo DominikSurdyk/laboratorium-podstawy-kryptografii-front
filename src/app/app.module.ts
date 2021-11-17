@@ -20,9 +20,10 @@ import {TestingComponent} from './testing/testing.component';
 import { EncryptionComponent } from './encryption/encryption.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { DecryptionComponent } from './decryption/decryption.component';
-import { AesEncodeComponent } from './ecb-encode/aes-encode.component';
+import { AesEncryptionComponent } from './aes-encryption/aes-encryption.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule} from "@angular/forms";
+import { AesDecryptionComponent } from './aes-decryption/aes-decryption.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {FormsModule} from "@angular/forms";
     EncryptionComponent,
     UploadFileComponent,
     DecryptionComponent,
-    AesEncodeComponent
+    AesEncryptionComponent,
+    AesDecryptionComponent
   ],
   imports: [
     BrowserModule,

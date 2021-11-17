@@ -5,7 +5,7 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
 
 @Component({
   selector: 'app-ecb-encode',
-  styleUrls: ['./aes-encode.component.scss'],
+  styleUrls: ['./aes-encryption.component.scss'],
   template: `
     <mat-card>
       <mat-card class="result-panel" *ngIf="showEncryptButton()">
@@ -22,6 +22,16 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
           >{{mode}}</mat-radio-button>
         </mat-radio-group>
       </mat-card>
+      <mat-card class="panel inputs">
+        <mat-form-field appearance="fill">
+          <mat-label>Sekret</mat-label>
+          <input matInput [(ngModel)]="secret">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="initialVectorNecessary()">
+          <mat-label>Wektor inicjujący</mat-label>
+          <input matInput [(ngModel)]="initialVector" placeholder="Wymagane 16 znaków. Wszystko powyzej jest ucinane">
+        </mat-form-field>
+      </mat-card>
       <mat-card class="panel">
         <app-upload-file
           [buttonLabel]="'Wgraj plik z wiadomością'"
@@ -33,25 +43,15 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
           {{message}}
         </div>
       </mat-card>
-      <mat-card class="panel inputs">
-        <mat-form-field appearance="fill">
-          <mat-label>Sekret</mat-label>
-          <input matInput [(ngModel)]="secret">
-        </mat-form-field>
-        <mat-form-field appearance="fill" *ngIf="initialVectorNecessary()">
-          <mat-label>Wektor inicjujący</mat-label>
-          <input matInput [(ngModel)]="initialVector">
-        </mat-form-field>
-      </mat-card>
     </mat-card>
   `
 })
-export class AesEncodeComponent implements OnInit {
+export class AesEncryptionComponent implements OnInit {
   private static readonly ECB = 'ECB';
   private static readonly CBC = 'CBC';
   private static readonly PBC = 'PBC';
 
-  modes: string[] = [AesEncodeComponent.ECB, AesEncodeComponent.CBC, AesEncodeComponent.PBC]
+  modes: string[] = [AesEncryptionComponent.ECB, AesEncryptionComponent.CBC, AesEncryptionComponent.PBC]
   message: string = '';
   messageFileName: string = '';
   selectedMode: string = '';
@@ -90,7 +90,7 @@ export class AesEncodeComponent implements OnInit {
 
   initialVectorNecessary(): boolean {
     return this.selectedMode ===
-      AesEncodeComponent.CBC || this.selectedMode === AesEncodeComponent.PBC
+      AesEncryptionComponent.CBC || this.selectedMode === AesEncryptionComponent.PBC
   }
 
   filledInitialVectorIfNecessary(): boolean {
@@ -120,9 +120,9 @@ export class AesEncodeComponent implements OnInit {
       secret: this.secret,
       initVector: this.initialVector.substr(0,16)
     }
-    if (this.selectedMode === AesEncodeComponent.ECB) {
+    if (this.selectedMode === AesEncryptionComponent.ECB) {
       this.backendService.encryptEbc(request).subscribe();
-    } else if (this.selectedMode == AesEncodeComponent.CBC) {
+    } else if (this.selectedMode == AesEncryptionComponent.CBC) {
       this.backendService.encryptCbc(request).subscribe();
     } else {
       this.backendService.encryptPbc(request).subscribe();
