@@ -13,7 +13,7 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
                 *ngIf="showEncryptButton()"
                 color="primary"
                 (click)="callOperation()">
-          {{operationName(selectedOperation)}} ALGORYTMEM {{selectedMode}}
+          {{operationName(selectedOperation)}} algorytmem {{selectedMode}}
         </button>
         <div class="result" *ngIf="resultVisible()">
           {{operationResultMessage}}
@@ -59,8 +59,10 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
         ></app-upload-file>
         <div class="file-content" *ngIf="messageFileUploaded()">
           Plik: {{messageFileName}}<br><br>
-          zawartość: <br>
-          {{message}}
+          zawartość: <br><br>
+          <span *ngFor="let block of messageBlocks(); let i = index"
+                [ngClass]="{ 'even': evenNumber(i), 'odd': !evenNumber(i) }"
+          >{{block}}</span>
         </div>
       </mat-card>
     </mat-card>
@@ -103,6 +105,20 @@ export class AesEncryptionComponent implements OnInit {
     return this.message !== '';
   }
 
+  messageBlocks(): string[] {
+    let blockSize: number;
+    if (this.selectedOperation === AesEncryptionComponent.ENCRYPTION) {
+      blockSize = 16;
+    } else {
+      blockSize = 128;
+    }
+    const result: string[] = [];
+    for (let i = 0; i < this.message.length; i = i + blockSize) {
+      result.push(this.message.substr(i, blockSize));
+    }
+    return result;
+  }
+
   hideResult(): void {
     this.operationResultMessage = '';
   }
@@ -140,7 +156,7 @@ export class AesEncryptionComponent implements OnInit {
     return this.message !== '' &&
       this.selectedMode !== '' &&
       this.secret !== '' &&
-      this.selectedOperation !=='' &&
+      this.selectedOperation !== '' &&
       this.filledInitialVectorIfNecessary();
   }
 
@@ -211,5 +227,9 @@ export class AesEncryptionComponent implements OnInit {
     } else if ((operation === AesEncryptionComponent.DECRYPTION)) {
       return "Odszyfruj";
     } else return "parsuj";
+  }
+
+  evenNumber(num: number) {
+    return num % 2 === 0;
   }
 }
