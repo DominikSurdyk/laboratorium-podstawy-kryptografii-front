@@ -8,14 +8,28 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
   styleUrls: ['./aes-encryption.component.scss'],
   template: `
     <mat-card>
-      <mat-card class="result-panel" *ngIf="showEncryptButton()">
-        <button mat-raised-button color="primary"
-                (click)="encrypt()">
-          ZASZYFRUJ ALGORYTMEM {{selectedMode}}
+      <mat-card class="result-panel" *ngIf="showEncryptButton() || resultVisible()">
+        <button mat-raised-button
+                *ngIf="showEncryptButton()"
+                color="primary"
+                (click)="callOperation()">
+          {{operationName(selectedOperation)}} ALGORYTMEM {{selectedMode}}
         </button>
+        <div class="result" *ngIf="resultVisible()">
+          {{operationResultMessage}}
+        </div>
+      </mat-card>
+
+      <mat-card class="panel">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedOperation" (change)="resetFile(); hideResult()">
+          <mat-radio-button *ngFor="let operation of operations"
+                            class="radio"
+                            value="{{operation}}"
+          >{{operationName(operation)}}</mat-radio-button>
+        </mat-radio-group>
       </mat-card>
       <mat-card class="panel">
-        <mat-radio-group class="radio-group" [(ngModel)]="selectedMode">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedMode" (change)="hideResult()">
           <mat-radio-button *ngFor="let mode of modes"
                             class="radio"
                             value="{{mode}}"
@@ -25,17 +39,23 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
       <mat-card class="panel inputs">
         <mat-form-field appearance="fill">
           <mat-label>Sekret</mat-label>
-          <input matInput [(ngModel)]="secret">
+          <input matInput
+                 [(ngModel)]="secret"
+                 (focus)="hideResult()"
+          >
         </mat-form-field>
         <mat-form-field appearance="fill" *ngIf="initialVectorNecessary()">
           <mat-label>Wektor inicjujący</mat-label>
-          <input matInput [(ngModel)]="initialVector" placeholder="Wymagane 16 znaków. Wszystko powyzej jest ucinane">
+          <input matInput
+                 (focus)="hideResult()"
+                 [(ngModel)]="initialVector"
+                 placeholder="Wymagane 16 znaków. Wszystko powyzej jest ucinane">
         </mat-form-field>
       </mat-card>
       <mat-card class="panel">
         <app-upload-file
           [buttonLabel]="'Wgraj plik z wiadomością'"
-          (uploadedFile)="onUploadedMessageFile($event)"
+          (uploadedFile)="onUploadedMessageFile($event); hideResult()"
         ></app-upload-file>
         <div class="file-content" *ngIf="messageFileUploaded()">
           Plik: {{messageFileName}}<br><br>
@@ -51,12 +71,20 @@ export class AesEncryptionComponent implements OnInit {
   private static readonly CBC = 'CBC';
   private static readonly PBC = 'PBC';
 
+  private static readonly ENCRYPTION = 'ENCRYPTION';
+  private static readonly DECRYPTION = 'DECRYPTION';
+
+
   modes: string[] = [AesEncryptionComponent.ECB, AesEncryptionComponent.CBC, AesEncryptionComponent.PBC]
+  operations: string[] = [AesEncryptionComponent.ENCRYPTION, AesEncryptionComponent.DECRYPTION]
+
   message: string = '';
   messageFileName: string = '';
   selectedMode: string = '';
+  selectedOperation: string = ''
   secret: string = '';
   initialVector: string = '';
+  operationResultMessage: string = ''
 
 
   constructor(private backendService: BackendCommunicationService) {
@@ -75,6 +103,14 @@ export class AesEncryptionComponent implements OnInit {
     return this.message !== '';
   }
 
+  hideResult(): void {
+    this.operationResultMessage = '';
+  }
+
+  resultVisible(): boolean {
+    return this.operationResultMessage !== '';
+  }
+
 
   public clearState(): void {
     this.message = '';
@@ -82,6 +118,8 @@ export class AesEncryptionComponent implements OnInit {
     this.selectedMode = '';
     this.secret = '';
     this.initialVector = '';
+    this.selectedOperation = ''
+    this.hideResult();
   }
 
   selectMode(mode: MatRadioChange): void {
@@ -102,8 +140,8 @@ export class AesEncryptionComponent implements OnInit {
     return this.message !== '' &&
       this.selectedMode !== '' &&
       this.secret !== '' &&
+      this.selectedOperation !=='' &&
       this.filledInitialVectorIfNecessary();
-
   }
 
   setSecret(secret: string) {
@@ -114,19 +152,64 @@ export class AesEncryptionComponent implements OnInit {
     this.initialVector = initialVector;
   }
 
-  encrypt(): void {
+  callOperation(): void {
     const request: AesEncryptRequest = {
       message: this.message,
       secret: this.secret,
-      initVector: this.initialVector.substr(0,16)
+      initVector: this.initialVector.substr(0, 16)
     }
-    if (this.selectedMode === AesEncryptionComponent.ECB) {
-      this.backendService.encryptEbc(request).subscribe();
-    } else if (this.selectedMode == AesEncryptionComponent.CBC) {
-      this.backendService.encryptCbc(request).subscribe();
-    } else {
-      this.backendService.encryptPbc(request).subscribe();
-    }
+    const mode: string = this.selectedMode;
+    const operation: string = this.selectedOperation;
     this.clearState();
+    if (operation === AesEncryptionComponent.ENCRYPTION) {
+      this.encrypt(mode, request)
+    } else {
+      this.decrypt(mode, request);
+    }
+  }
+
+  encrypt(mode: string, request: AesEncryptRequest): void {
+    if (mode === AesEncryptionComponent.ECB) {
+      this.backendService.encryptEcb(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    } else if (mode == AesEncryptionComponent.CBC) {
+      this.backendService.encryptCbc(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    } else {
+      this.backendService.encryptPbc(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    }
+  }
+
+  decrypt(mode: string, request: AesEncryptRequest): void {
+    if (mode === AesEncryptionComponent.ECB) {
+      this.backendService.decryptEcb(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    } else if (mode == AesEncryptionComponent.CBC) {
+      this.backendService.decryptCbc(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    } else {
+      this.backendService.decryptPbc(request).subscribe(response => {
+        this.operationResultMessage = response.message
+      });
+    }
+  }
+
+  resetFile(): void {
+    this.messageFileName = '';
+    this.message = '';
+  }
+
+  operationName(operation: string): string {
+    if (operation === AesEncryptionComponent.ENCRYPTION) {
+      return "Zaszyfruj";
+    } else if ((operation === AesEncryptionComponent.DECRYPTION)) {
+      return "Odszyfruj";
+    } else return "parsuj";
   }
 }
