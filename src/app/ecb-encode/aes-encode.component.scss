@@ -1,0 +1,24 @@
+.panel{
+  background-color: grey;
+}
+
+.result-panel{
+  background-color: darkslategrey;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.radio{
+  margin: 10px;
+}

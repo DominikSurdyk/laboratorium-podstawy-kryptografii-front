@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {
   BackendCommunicationService,
-  DecryptionResponse,
-  EncryptRequest
+  DecryptionBbsResponse,
+  EncryptBbsRequest
 } from "../services/backend-communication.service";
 import {ParsingService} from "../services/parsing.service";
 import {UploadedFile} from "../upload-file/upload-file.component";
@@ -102,27 +102,27 @@ export class DecryptionComponent implements OnInit {
   }
 
   decryptToString(): void {
-    const request: EncryptRequest = {
+    const request: EncryptBbsRequest = {
       messageAscii: this.parsingService.toBooleanArray(this.message),
       messageString: '',
       messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
       keyFileName: this.parsingService.parseFilename(this.keyFileName)
     }
-    this.backendService.decryptMessageToString(request).subscribe((res: DecryptionResponse) => {
+    this.backendService.decryptMessageToString(request).subscribe((res: DecryptionBbsResponse) => {
       this.resultString = res.resultString
     })
   }
 
   decryptToAscii(): void {
-    const request: EncryptRequest = {
+    const request: EncryptBbsRequest = {
       messageAscii: this.parsingService.toBooleanArray(this.message),
       messageString: '',
       messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
       keyFileName: this.parsingService.parseFilename(this.keyFileName)
     }
-    this.backendService.decryptMessageToAscii(request).subscribe((res: DecryptionResponse) => {
+    this.backendService.decryptMessageToAscii(request).subscribe((res: DecryptionBbsResponse) => {
       this.resultAscii = this.parsingService.toBinaryDigit(res.resultAscii);
     })
   }

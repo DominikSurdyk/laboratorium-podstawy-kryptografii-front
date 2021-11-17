@@ -20,6 +20,9 @@ import {TestingComponent} from './testing/testing.component';
 import { EncryptionComponent } from './encryption/encryption.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { DecryptionComponent } from './decryption/decryption.component';
+import { AesEncodeComponent } from './ecb-encode/aes-encode.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { DecryptionComponent } from './decryption/decryption.component';
     TestingComponent,
     EncryptionComponent,
     UploadFileComponent,
-    DecryptionComponent
+    DecryptionComponent,
+    AesEncodeComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,9 @@ import { DecryptionComponent } from './decryption/decryption.component';
     MatButtonModule,
     HttpClientModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatRadioModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

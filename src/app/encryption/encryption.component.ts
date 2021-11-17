@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BackendCommunicationService, EncryptRequest} from "../services/backend-communication.service";
+import {BackendCommunicationService, EncryptBbsRequest} from "../services/backend-communication.service";
 import {ParsingService} from "../services/parsing.service";
 import {UploadedFile} from "../upload-file/upload-file.component";
 
@@ -92,7 +92,7 @@ export class EncryptionComponent implements OnInit {
   }
 
   encryptString(): void {
-    const request: EncryptRequest = {
+    const request: EncryptBbsRequest = {
       messageAscii: [],
       messageString: this.message,
       messageFileName: this.parsingService.parseFilename(this.messageFileName),
@@ -106,7 +106,7 @@ export class EncryptionComponent implements OnInit {
   }
 
   encryptAscii(): void {
-    const request: EncryptRequest = {
+    const request: EncryptBbsRequest = {
       messageAscii: this.parsingService.toBooleanArray(this.message),
       messageString: '',
       messageFileName: this.parsingService.parseFilename(this.messageFileName),

@@ -7,17 +7,27 @@ export interface CheckResult {
   details: string;
 }
 
-export interface DecryptionResponse {
+export interface DecryptionBbsResponse {
   resultString: string;
   resultAscii: boolean[];
 }
 
-export interface EncryptRequest {
+export interface EncryptBbsRequest {
   messageAscii: boolean[];
   messageString: string;
   messageFileName: string;
   key: boolean[];
   keyFileName: string
+}
+
+export interface AesEncryptRequest {
+   message: string
+   secret: string
+   initVector: string
+}
+
+export interface AesEncryptResponse {
+  message: string
 }
 
 @Injectable({
@@ -40,23 +50,38 @@ export class BackendCommunicationService {
     return this.http.post<CheckResult>(url, series);
   }
 
-  public encryptStringMessage(request: EncryptRequest): Observable<boolean[]> {
+  public encryptStringMessage(request: EncryptBbsRequest): Observable<boolean[]> {
     const url = BackendCommunicationService.BACKEND_URL + '/encrypt/string/';
     return this.http.post<boolean[]>(url, request);
   }
 
-  public encryptAsciiMessage(request: EncryptRequest): Observable<boolean[]> {
+  public encryptAsciiMessage(request: EncryptBbsRequest): Observable<boolean[]> {
     const url = BackendCommunicationService.BACKEND_URL + '/encrypt/ascii/';
     return this.http.post<boolean[]>(url, request);
   }
 
-  public decryptMessageToString(request: EncryptRequest): Observable<DecryptionResponse> {
+  public decryptMessageToString(request: EncryptBbsRequest): Observable<DecryptionBbsResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/decrypt/string/';
-    return this.http.post<DecryptionResponse>(url, request);
+    return this.http.post<DecryptionBbsResponse>(url, request);
   }
 
-  public decryptMessageToAscii(request: EncryptRequest): Observable<DecryptionResponse> {
+  public decryptMessageToAscii(request: EncryptBbsRequest): Observable<DecryptionBbsResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/decrypt/ascii/';
-    return this.http.post<DecryptionResponse>(url, request);
+    return this.http.post<DecryptionBbsResponse>(url, request);
+  }
+
+  public encryptEbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+    const url = BackendCommunicationService.BACKEND_URL + 'aes/ecb/encrypt';
+    return this.http.post<AesEncryptResponse>(url, request);
+  }
+
+  public encryptCbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+    const url = BackendCommunicationService.BACKEND_URL + 'aes/cbc/encrypt';
+    return this.http.post<AesEncryptResponse>(url, request);
+  }
+
+  public encryptPbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+    const url = BackendCommunicationService.BACKEND_URL + 'aes/pbc/encrypt';
+    return this.http.post<AesEncryptResponse>(url, request);
   }
 }
