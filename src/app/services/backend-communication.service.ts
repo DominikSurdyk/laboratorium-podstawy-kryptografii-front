@@ -21,12 +21,19 @@ export interface EncryptBbsRequest {
 }
 
 export interface AesEncryptRequest {
-   message: string
-   secret: string
-   initVector: string
+  message: string
+  secret: string
+  initVector: string
 }
 
-export interface AesEncryptResponse {
+export interface RsaRequest {
+  message: string
+  eParamPublic: string,
+  dParamPrivate: string,
+  nParamCommon: string
+}
+
+export interface StringResponse {
   message: string
 }
 
@@ -70,33 +77,43 @@ export class BackendCommunicationService {
     return this.http.post<DecryptionBbsResponse>(url, request);
   }
 
-  public encryptEcb(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public encryptEcb(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/ecb/encrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
   }
 
-  public encryptCbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public encryptCbc(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/cbc/encrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
   }
 
-  public encryptPbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public encryptPbc(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/pbc/encrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
   }
 
-  public decryptEcb(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public decryptEcb(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/ecb/decrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
   }
 
-  public decryptCbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public decryptCbc(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/cbc/decrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
   }
 
-  public decryptPbc(request: AesEncryptRequest): Observable<AesEncryptResponse> {
+  public decryptPbc(request: AesEncryptRequest): Observable<StringResponse> {
     const url = BackendCommunicationService.BACKEND_URL + '/aes/pbc/decrypt';
-    return this.http.post<AesEncryptResponse>(url, request);
+    return this.http.post<StringResponse>(url, request);
+  }
+
+  public encryptRsa(request: RsaRequest): Observable<StringResponse> {
+    const url = BackendCommunicationService.BACKEND_URL + '/rsa/encrypt';
+    return this.http.post<StringResponse>(url, request);
+  }
+
+  public decryptRsa(request: RsaRequest): Observable<StringResponse> {
+    const url = BackendCommunicationService.BACKEND_URL + '/rsa/decrypt';
+    return this.http.post<StringResponse>(url, request);
   }
 }

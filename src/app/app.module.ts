@@ -24,6 +24,7 @@ import { AesEncryptionComponent } from './aes-encryption/aes-encryption.componen
 import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule} from "@angular/forms";
 import { AesDecryptionComponent } from './aes-decryption/aes-decryption.component';
+import { RsaComponent } from './rsa/rsa.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AesDecryptionComponent } from './aes-decryption/aes-decryption.componen
     UploadFileComponent,
     DecryptionComponent,
     AesEncryptionComponent,
-    AesDecryptionComponent
+    AesDecryptionComponent,
+    RsaComponent
   ],
   imports: [
     BrowserModule,

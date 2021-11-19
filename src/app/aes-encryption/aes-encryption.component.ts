@@ -61,7 +61,7 @@ import {AesEncryptRequest, BackendCommunicationService} from "../services/backen
           Plik: {{messageFileName}}<br><br>
           zawartość: <br><br>
           <span *ngFor="let block of messageBlocks(); let i = index"
-                [ngClass]="{ 'even': evenNumber(i), 'odd': !evenNumber(i) }"
+                [ngClass]="{ 'even': evenNumber(i), 'odd': oddNumber(i) }"
           >{{block}}</span>
         </div>
       </mat-card>
@@ -230,6 +230,16 @@ export class AesEncryptionComponent implements OnInit {
   }
 
   evenNumber(num: number) {
+    if (this.selectedOperation === ''){
+      return false;
+    }
     return num % 2 === 0;
+  }
+
+  oddNumber(num: number) {
+    if (this.selectedOperation === ''){
+      return false;
+    }
+    return num % 2 === 1;
   }
 }

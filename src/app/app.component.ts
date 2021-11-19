@@ -4,6 +4,7 @@ import {EncryptionComponent} from "./encryption/encryption.component";
 import {GenerateBbsComponent} from "./generate-bbs/generate-bbs.component";
 import {UploadBbsComponent} from "./upload-bbs/upload-bbs.component";
 import {AesEncryptionComponent} from "./aes-encryption/aes-encryption.component";
+import {RsaComponent} from "./rsa/rsa.component";
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,9 @@ import {AesEncryptionComponent} from "./aes-encryption/aes-encryption.component"
       <mat-tab label="AES szyfrowanie wiadomości" [tabIndex]="4">
         <app-ecb-encode></app-ecb-encode>
       </mat-tab>
+      <mat-tab label="RSA szyfrowanie wiadomości" [tabIndex]="5">
+        <app-rsa></app-rsa>
+      </mat-tab>
     </mat-tab-group>
 
   `
@@ -36,7 +40,7 @@ export class AppComponent {
   readonly ENCRYPTION = 2;
   readonly DECRYPTION = 3;
   readonly AES_ENCRYPTION = 4;
-  readonly AES_DECRYPTION = 5;
+  readonly RSA = 5;
   @ViewChild(DecryptionComponent)
   decryptionComponent: DecryptionComponent;
   @ViewChild(EncryptionComponent)
@@ -46,7 +50,9 @@ export class AppComponent {
   @ViewChild(UploadBbsComponent)
   uploadBbsComponent: UploadBbsComponent;
   @ViewChild(AesEncryptionComponent)
-  aesEncodeComponent: AesEncryptionComponent;
+  aesEncryptionComponent: AesEncryptionComponent;
+  @ViewChild(RsaComponent)
+  rsaComponent: RsaComponent;
 
   constructor() {
   }
@@ -65,7 +71,10 @@ export class AppComponent {
       this.uploadBbsComponent.clearState();
     }
     if (componentIndex !== this.AES_ENCRYPTION) {
-      this.aesEncodeComponent.clearState();
+      this.aesEncryptionComponent.clearState();
+    }
+    if (componentIndex !== this.RSA) {
+      this.rsaComponent.clearState();
     }
   }
 }
