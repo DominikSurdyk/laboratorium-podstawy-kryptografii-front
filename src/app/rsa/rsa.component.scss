@@ -1,0 +1,28 @@
+.panel{
+  background-color: grey;
+  overflow-wrap: anywhere;
+}
+.result{
+  overflow-wrap: anywhere;
+}
+
+.result-panel{
+  background-color: darkslategrey;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.radio{
+  margin: 10px;
+}
