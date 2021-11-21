@@ -25,6 +25,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule} from "@angular/forms";
 import { AesDecryptionComponent } from './aes-decryption/aes-decryption.component';
 import { RsaComponent } from './rsa/rsa.component';
+import { RsaCheckComponent } from './rsa-check/rsa-check.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { RsaComponent } from './rsa/rsa.component';
     DecryptionComponent,
     AesEncryptionComponent,
     AesDecryptionComponent,
-    RsaComponent
+    RsaComponent,
+    RsaCheckComponent
   ],
   imports: [
     BrowserModule,

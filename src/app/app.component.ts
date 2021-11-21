@@ -5,6 +5,7 @@ import {GenerateBbsComponent} from "./generate-bbs/generate-bbs.component";
 import {UploadBbsComponent} from "./upload-bbs/upload-bbs.component";
 import {AesEncryptionComponent} from "./aes-encryption/aes-encryption.component";
 import {RsaComponent} from "./rsa/rsa.component";
+import {RsaCheckComponent} from "./rsa-check/rsa-check.component";
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,9 @@ import {RsaComponent} from "./rsa/rsa.component";
       <mat-tab label="RSA szyfrowanie wiadomości" [tabIndex]="5">
         <app-rsa></app-rsa>
       </mat-tab>
+      <mat-tab label="Sprawdzanie podpisu" [tabIndex]="6">
+        <app-rsa-check></app-rsa-check>
+      </mat-tab>
     </mat-tab-group>
 
   `
@@ -41,6 +45,7 @@ export class AppComponent {
   readonly DECRYPTION = 3;
   readonly AES_ENCRYPTION = 4;
   readonly RSA = 5;
+  readonly RSA_CHECK = 6;
   @ViewChild(DecryptionComponent)
   decryptionComponent: DecryptionComponent;
   @ViewChild(EncryptionComponent)
@@ -53,6 +58,8 @@ export class AppComponent {
   aesEncryptionComponent: AesEncryptionComponent;
   @ViewChild(RsaComponent)
   rsaComponent: RsaComponent;
+  @ViewChild(RsaCheckComponent)
+  rsaCheckComponent: RsaCheckComponent;
 
   constructor() {
   }
@@ -75,6 +82,9 @@ export class AppComponent {
     }
     if (componentIndex !== this.RSA) {
       this.rsaComponent.clearState();
+    }
+    if (componentIndex !== this.RSA_CHECK) {
+      this.rsaCheckComponent.clearState();
     }
   }
 }

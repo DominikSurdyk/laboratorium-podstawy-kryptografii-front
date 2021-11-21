@@ -65,7 +65,10 @@ import {UploadedFile} from "../upload-file/upload-file.component";
           {{message}}
         </div>
       </mat-card>
-    </mat-card>`
+      przykladowe klucze: ePublicznyNadawcy = 7, dPrywatnyNadawcy = 463, n = 589 <br>
+      przykladowe klucze: ePublicznyNadawcy = 3, dPrywatnyNadawcy = 427, n = 697 <br>
+    </mat-card>
+  `
 })
 export class RsaComponent implements OnInit {
   private static readonly ENCRYPTION = 'ENCRYPTION';

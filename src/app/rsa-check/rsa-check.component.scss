@@ -1,0 +1,27 @@
+.panel{
+  background-color: grey;
+  overflow-wrap: anywhere;
+}
+.result{
+  overflow-wrap: anywhere;
+}
+
+.result-panel{
+  background-color: darkslategrey;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+}
+
+.correct-message {
+  background-color: green;
+}
+
+.incorrect-message {
+  background-color: red;
+}

@@ -49,6 +49,7 @@ import {UploadedFile} from "../upload-file/upload-file.component";
 export class EncryptionComponent implements OnInit {
   static readonly ASCII_DIGIT_LENGTH: number = 8;
   message: string = '';
+  messageWithoutWraps: string = '';
   messageFileName: string = '';
   key: string = '';
   keyFileName: string = '';
@@ -74,7 +75,10 @@ export class EncryptionComponent implements OnInit {
   }
 
   onUploadedMessageFile(uploadedFile: UploadedFile): void {
+    console.log(uploadedFile.content.length)
     this.message = uploadedFile.content;
+    this.messageWithoutWraps = uploadedFile.content.replace(/(\r\n|\n|\r)/gm, "");
+    console.log(this.messageWithoutWraps.length)
     this.messageFileName = uploadedFile.name;
   }
 
@@ -84,17 +88,17 @@ export class EncryptionComponent implements OnInit {
   }
 
   isKeyLongEnoughForString(): boolean {
-    return this.message.length * EncryptionComponent.ASCII_DIGIT_LENGTH <= this.key.length;
+    return this.messageWithoutWraps.length <= this.key.length;
   }
 
   isKeyLongEnoughForAscii(): boolean {
-    return this.message.length <= this.key.length;
+    return this.messageWithoutWraps.length <= this.key.length;
   }
 
   encryptString(): void {
     const request: EncryptBbsRequest = {
       messageAscii: [],
-      messageString: this.message,
+      messageString: this.messageWithoutWraps,
       messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
       keyFileName: this.parsingService.parseFilename(this.keyFileName)
@@ -107,7 +111,7 @@ export class EncryptionComponent implements OnInit {
 
   encryptAscii(): void {
     const request: EncryptBbsRequest = {
-      messageAscii: this.parsingService.toBooleanArray(this.message),
+      messageAscii: this.parsingService.toBooleanArray(this.messageWithoutWraps),
       messageString: '',
       messageFileName: this.parsingService.parseFilename(this.messageFileName),
       key: this.parsingService.toBooleanArray(this.key),
