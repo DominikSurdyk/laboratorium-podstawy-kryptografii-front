@@ -121,8 +121,6 @@ export class RsaComponent implements OnInit {
 
   chowCallOperationButton(): boolean {
     return this.message !== '' &&
-      this.nParamCommon !== '' &&
-      this.eParamPublic !== '' &&
       this.selectedOperation !== '' &&
       this.nParamCommon !== '' &&
       this.conditionsForDecrypt() &&
@@ -130,6 +128,9 @@ export class RsaComponent implements OnInit {
   }
 
   conditionsForEncrypt() : boolean {
+    if (this.selectedOperation !== RsaComponent.ENCRYPTION){
+      return true
+    }
     return this.eParamPublic !== '';
   }
 
